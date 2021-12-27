@@ -42,7 +42,12 @@ export default function CristalWrapper({
   return (
     <div
       className={`absolute ${additionalClassName}`}
-      style={{ top: yOffset, left: xOffset, ...additionalStyle }}
+      style={{
+        top: yOffset,
+        left: xOffset,
+        transform: "rotate(-20deg)",
+        ...additionalStyle,
+      }}
       onMouseDown={() => setMouseIsDown(true)}
     >
       {children}

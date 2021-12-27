@@ -16,7 +16,6 @@ export default function ListStamp({ stampId }: Props) {
     setStamp(newStamp);
   };
 
-  console.log(stamp.title);
   return (
     <CristalWrapper
       starterXOffset={stamp.xOffset}
@@ -28,36 +27,30 @@ export default function ListStamp({ stampId }: Props) {
         className="w-64 text-white p-3"
         style={{
           background: "rgb(0, 50, 250)",
-          borderRadius: "10px",
+          // borderRadius: "20px",
         }}
       >
-        <input
-          style={{
-            background: "transparent",
-            // width: `${stamp.title.length * 10}px`,
-          }}
-          className="text-white outline-none text-2xl border"
-          value={stamp.title}
-          onChange={(event) => updateStamp({ title: event.target.value })}
-        />
-
-        {/*<span*/}
-        {/*  onChange={(e) => {*/}
-        {/*    console.log("hi");*/}
-        {/*  }}*/}
-        {/*  className="input text-white outline-none text-2xl"*/}
-        {/*  role="textbox"*/}
-        {/*  contentEditable*/}
-        {/*>*/}
-        {/*  99*/}
-        {/*</span>*/}
-        {/*{stamp.items.map((item) => (*/}
-        {/*  <input*/}
-        {/*    value={item.content}*/}
-        {/*    style={{ background: "transparent" }}*/}
-        {/*    className="text-white outline-none"*/}
-        {/*  />*/}
-        {/*))}*/}
+        <div>
+          <input
+            style={{
+              background: "transparent",
+            }}
+            size={stamp.title.length}
+            className="outline-none text-2xl"
+            value={stamp.title}
+            onChange={(event) => updateStamp({ title: event.target.value })}
+          />
+        </div>
+        {stamp.items.map((item) => (
+          <div>
+            <input
+              value={item.content}
+              size={item.content.length}
+              style={{ background: "transparent" }}
+              className="outline-none"
+            />
+          </div>
+        ))}
       </div>
     </CristalWrapper>
   );
