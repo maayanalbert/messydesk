@@ -1,6 +1,6 @@
-export type GeneralStamp = ListStamp;
+export type GeneralStampType = ListStampType;
 
-export type ListStamp = StampBasics & ListStampExtras & { type: "LIST" };
+export type ListStampType = StampBasics & ListStampExtras & { type: "LIST" };
 
 export interface StampBasics {
   id: string;
@@ -9,6 +9,8 @@ export interface StampBasics {
   isDone: boolean;
   direction: StampDirection;
   zIndex: number;
+  xOffset: number;
+  yOffset: number;
 }
 
 export interface ListStampExtras {

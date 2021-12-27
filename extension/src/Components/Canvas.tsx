@@ -1,11 +1,12 @@
 import React from "react";
-import { useStamps } from "../StampContext";
+import { useStamps } from "../hooks/StampContext";
 import ListStamp from "./ListStamp";
+import { GeneralStampType } from "../types";
 
 export default function Canvas() {
   const [stamps, _] = useStamps();
   return (
-    <div style={{ width: "100%", height: "100vh", background: "BLACK" }}>
+    <div className="h-screen w-full">
       {Array.from(stamps.values()).map((stamp) => {
         if (stamp.type === "LIST") {
           return <ListStamp stampId={stamp.id} />;
