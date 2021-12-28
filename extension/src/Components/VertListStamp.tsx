@@ -1,31 +1,16 @@
 import React, { createRef, MouseEvent, useRef, useState } from "react";
-import logo from "../logo.svg";
 import { useStamp } from "../hooks/StampContext";
-import { VertListStampType } from "../types";
-import { useClickAndDrag } from "../hooks/useClickAndDrag";
+import { useStampMove } from "../hooks/useStampMove";
 
 interface Props {
   stampId: string;
 }
 
 export default function VertListStamp({ stampId }: Props) {
-  const [stamp, setStamp] = useStamp(stampId);
-
-  const updateStamp = (params: Partial<VertListStampType>) => {
-    const newStamp = { ...stamp, ...params } as VertListStampType;
-    setStamp(newStamp);
-  };
-
+  const [stamp, updateStamp] = useStamp(stampId);
   const stampRef: React.MutableRefObject<any> = useRef();
 
-  const onDrag = (event: MouseEvent<HTMLDivElement, MouseEvent>) => {
-    updateStamp({
-      xOffset: event.movementX + stamp.xOffset,
-      yOffset: event.movementY + stamp.yOffset,
-    });
-  };
-
-  useClickAndDrag(stampRef, onDrag);
+  useStampMove(stamp, updateStamp, stampRef);
 
   if (stamp.type !== "VERT_LIST") {
     console.error("Wrong stamp type passed in");

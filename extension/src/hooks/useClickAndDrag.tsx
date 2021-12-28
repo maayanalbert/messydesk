@@ -3,7 +3,8 @@ import { useEventListener } from "./useEventListener";
 
 export function useClickAndDrag(
   ref: React.MutableRefObject<any>,
-  onDrag: (_: MouseEvent<HTMLDivElement, MouseEvent>) => void
+  onDrag: (e: MouseEvent<HTMLDivElement, MouseEvent>) => void,
+  onDragEnd?: (e: MouseEvent<HTMLDivElement, MouseEvent>) => void
 ) {
   const [mouseIsDown, setMouseIsDown] = useState(false);
 
@@ -13,14 +14,19 @@ export function useClickAndDrag(
     }
   };
 
-  const onMouseUp = () => {
+  const onMouseUp = (event: MouseEvent<HTMLDivElement, MouseEvent>) => {
     setMouseIsDown(false);
+    onDragEnd && onDragEnd(event);
   };
 
   useEventListener("mouseup", onMouseUp);
   useEventListener("mousemove", onMouseMove);
 
   useEffect(() => {
-    ref.current.onmousedown = () => setMouseIsDown(true);
+    ref.current.onmousedown = (
+      event: MouseEvent<HTMLDivElement, MouseEvent>
+    ) => {
+      setMouseIsDown(true);
+    };
   }, [ref]);
 }

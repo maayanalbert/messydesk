@@ -52,6 +52,7 @@ const starterStamp: VertListStampType = {
   type: "VERT_LIST",
   xOffset: 200,
   yOffset: 200,
+  isMoving: false,
 };
 
 const starterStamp2: HorizListStampType = {
@@ -99,6 +100,7 @@ const starterStamp2: HorizListStampType = {
   type: "HORIZ_LIST",
   xOffset: 400,
   yOffset: 200,
+  isMoving: false,
 };
 
 const starterStamp3: NodeStampType = {
@@ -111,6 +113,7 @@ const starterStamp3: NodeStampType = {
   type: "NODE",
   xOffset: 400,
   yOffset: 400,
+  isMoving: false,
 };
 
 const starterStamps = new Map();
@@ -147,7 +150,7 @@ export function useStamps(): StampContextType {
 
 export function useStamp(
   stampId: string
-): [GeneralStampType, (_: GeneralStampType) => void] {
+): [GeneralStampType, (_: Partial<GeneralStampType>) => void] {
   const [stamps, setStamps] = useStamps();
   const stamp = stamps.get(stampId);
 
@@ -155,11 +158,12 @@ export function useStamp(
     throw new Error(`stamps missing given stamp id`);
   }
 
-  const setStamp = (stamp: GeneralStampType) => {
+  const updateStamp = (params: Partial<GeneralStampType>) => {
+    const newStamp = { ...stamp, ...params } as GeneralStampType;
     const newStamps = new Map(stamps);
-    newStamps.set(stampId, stamp);
+    newStamps.set(stampId, newStamp);
     setStamps(newStamps);
   };
 
-  return [stamp, setStamp];
+  return [stamp, updateStamp];
 }

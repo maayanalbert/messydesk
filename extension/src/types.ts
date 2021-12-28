@@ -25,6 +25,7 @@ export interface StampBasics {
   zIndex: number;
   xOffset: number;
   yOffset: number;
+  isMoving: boolean;
 }
 
 export interface StampItem {

@@ -1,30 +1,24 @@
 import React, { MouseEvent, useRef } from "react";
 import { useStamp } from "../hooks/StampContext";
-import { NodeStampType } from "../types";
+import {
+  GeneralStampType,
+  HorizListStampType,
+  NodeStampType,
+  VertListStampType,
+} from "../types";
 import { useClickAndDrag } from "../hooks/useClickAndDrag";
+import { useStampMove } from "../hooks/useStampMove";
+import { useUpdateStamp } from "../hooks/useUpdateStamp";
 
 interface Props {
   stampId: string;
 }
 
 export default function NodeStamp({ stampId }: Props) {
-  const [stamp, setStamp] = useStamp(stampId);
-
-  const updateStamp = (params: Partial<NodeStampType>) => {
-    const newStamp = { ...stamp, ...params } as NodeStampType;
-    setStamp(newStamp);
-  };
-
+  const [stamp, updateStamp] = useStamp(stampId);
   const stampRef: React.MutableRefObject<any> = useRef();
 
-  const onDrag = (event: MouseEvent<HTMLDivElement, MouseEvent>) => {
-    updateStamp({
-      xOffset: event.movementX + stamp.xOffset,
-      yOffset: event.movementY + stamp.yOffset,
-    });
-  };
-
-  useClickAndDrag(stampRef, onDrag);
+  useStampMove(stamp, updateStamp, stampRef);
 
   if (stamp.type !== "NODE") {
     console.error("Wrong stamp type passed in");
