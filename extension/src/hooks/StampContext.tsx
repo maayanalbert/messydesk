@@ -1,8 +1,13 @@
 import React, { ReactNode, useState, createContext, useEffect } from "react";
 import uuidv4 from "uuidv4";
-import { GeneralStampType, ListStampType } from "../types";
+import {
+  GeneralStampType,
+  HorizListStampType,
+  NodeStampType,
+  VertListStampType,
+} from "../types";
 
-const starterStamp: ListStampType = {
+const starterStamp: VertListStampType = {
   title: "blackpink",
   color: "YELLOW",
   id: uuidv4(),
@@ -15,14 +20,104 @@ const starterStamp: ListStampType = {
       content: "whistle",
       isDone: false,
     },
+    {
+      content: "pretty savage",
+      isDone: false,
+    },
+    {
+      content: "lovesick girls",
+      isDone: false,
+    },
+    {
+      content: "as if it's your last",
+      isDone: false,
+    },
+    {
+      content: "ice cream",
+      isDone: false,
+    },
+    {
+      content: "bet you wanna",
+      isDone: false,
+    },
+    {
+      content: "on the ground",
+      isDone: false,
+    },
+    {
+      content: "sour candy",
+      isDone: false,
+    },
   ],
-  type: "LIST",
+  type: "VERT_LIST",
   xOffset: 200,
   yOffset: 200,
 };
 
+const starterStamp2: HorizListStampType = {
+  title: "red velvet",
+  color: "YELLOW",
+  id: uuidv4(),
+  isDone: false,
+  direction: "NORTH",
+  zIndex: 0,
+  items: [
+    { content: "dumb dumb", isDone: false },
+    {
+      content: "bad boy",
+      isDone: false,
+    },
+    {
+      content: "really bad boy",
+      isDone: false,
+    },
+    {
+      content: "psycho (me)",
+      isDone: false,
+    },
+    {
+      content: "talk to me",
+      isDone: false,
+    },
+    {
+      content: "zim zala bim",
+      isDone: false,
+    },
+    {
+      content: "monster",
+      isDone: false,
+    },
+    {
+      content: "naughty",
+      isDone: false,
+    },
+    {
+      content: "hello",
+      isDone: false,
+    },
+  ],
+  type: "HORIZ_LIST",
+  xOffset: 400,
+  yOffset: 200,
+};
+
+const starterStamp3: NodeStampType = {
+  title: "enhypen",
+  color: "YELLOW",
+  id: uuidv4(),
+  isDone: false,
+  direction: "NORTH",
+  zIndex: 0,
+  type: "NODE",
+  xOffset: 400,
+  yOffset: 400,
+};
+
 const starterStamps = new Map();
 starterStamps.set(starterStamp.id, starterStamp);
+starterStamps.set(starterStamp2.id, starterStamp2);
+starterStamps.set(starterStamp3.id, starterStamp3);
+
 const stampStarterContext: StampContextType = [starterStamps, (_) => undefined];
 
 const StampContext = createContext(stampStarterContext);

@@ -1,6 +1,20 @@
-export type GeneralStampType = ListStampType;
+export type GeneralStampType =
+  | VertListStampType
+  | HorizListStampType
+  | NodeStampType;
 
-export type ListStampType = StampBasics & ListStampExtras & { type: "LIST" };
+export type VertListStampType = StampBasics & {
+  type: "VERT_LIST";
+  items: StampItem[];
+};
+export type HorizListStampType = StampBasics & {
+  type: "HORIZ_LIST";
+  items: StampItem[];
+};
+
+export type NodeStampType = StampBasics & {
+  type: "NODE";
+};
 
 export interface StampBasics {
   id: string;
@@ -13,10 +27,6 @@ export interface StampBasics {
   yOffset: number;
 }
 
-export interface ListStampExtras {
-  items: StampItem[];
-}
-
 export interface StampItem {
   content: string;
   isDone: boolean;
@@ -26,4 +36,4 @@ export type StampColor = "YELLOW" | "BLUE" | "RED";
 
 export type StampDirection = "NORTH" | "EAST" | "SOUTH" | "WEST";
 
-export type StampType = "LIST";
+export type StampType = "VERT_LIST" | "HORIZ_LIST" | "NODE" | "BLOCK";

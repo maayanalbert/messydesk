@@ -1,19 +1,18 @@
 import React, { createRef, MouseEvent, useRef, useState } from "react";
 import logo from "../logo.svg";
 import { useStamp } from "../hooks/StampContext";
-import CristalWrapper from "./CristalWrapper";
-import { ListStampType } from "../types";
+import { VertListStampType } from "../types";
 import { useClickAndDrag } from "../hooks/useClickAndDrag";
 
 interface Props {
   stampId: string;
 }
 
-export default function ListStamp({ stampId }: Props) {
+export default function VertListStamp({ stampId }: Props) {
   const [stamp, setStamp] = useStamp(stampId);
 
-  const updateStamp = (params: Partial<ListStampType>) => {
-    const newStamp = { ...stamp, ...params };
+  const updateStamp = (params: Partial<VertListStampType>) => {
+    const newStamp = { ...stamp, ...params } as VertListStampType;
     setStamp(newStamp);
   };
 
@@ -28,12 +27,17 @@ export default function ListStamp({ stampId }: Props) {
 
   useClickAndDrag(stampRef, onDrag);
 
+  if (stamp.type !== "VERT_LIST") {
+    console.error("Wrong stamp type passed in");
+    return null;
+  }
+
   return (
     <div
       ref={stampRef}
       className="w-64 text-white p-3 absolute"
       style={{
-        background: "rgb(0, 50, 250)",
+        background: "rgb(25, 25, 250)",
         top: stamp.yOffset,
         left: stamp.xOffset,
         transform: "rotate(-20deg)",
