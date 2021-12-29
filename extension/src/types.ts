@@ -21,7 +21,7 @@ export interface StampBasics {
   title: string;
   color: StampColor;
   isDone: boolean;
-  direction: StampDirection;
+  angle: number;
   zIndex: number;
   xOffset: number;
   yOffset: number;

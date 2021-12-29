@@ -12,7 +12,7 @@ const starterStamp: VertListStampType = {
   color: "YELLOW",
   id: uuidv4(),
   isDone: false,
-  direction: "NORTH",
+  angle: 10,
   zIndex: 0,
   items: [
     { content: "kill this love", isDone: false },
@@ -60,7 +60,7 @@ const starterStamp2: HorizListStampType = {
   color: "YELLOW",
   id: uuidv4(),
   isDone: false,
-  direction: "NORTH",
+  angle: -20,
   zIndex: 0,
   items: [
     { content: "dumb dumb", isDone: false },
@@ -108,7 +108,7 @@ const starterStamp3: NodeStampType = {
   color: "YELLOW",
   id: uuidv4(),
   isDone: false,
-  direction: "NORTH",
+  angle: -10,
   zIndex: 0,
   type: "NODE",
   xOffset: 400,

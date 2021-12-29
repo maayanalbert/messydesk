@@ -1,6 +1,6 @@
 import React from "react";
 import "./App.css";
-import Canvas from "./Components/Canvas";
+import Canvas from "./components/Canvas";
 import { StampContextProvider } from "./hooks/StampContext";
 
 function App() {
