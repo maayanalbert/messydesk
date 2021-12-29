@@ -1,8 +1,14 @@
 import React, { useEffect, useState } from "react";
-import { ParticleType } from "../particles/ParticleType";
-import { addMutualRepulsion, getNewParticleArray } from "./ParticleSystemUtils";
+import { ParticleType } from "../particles/ParticleTypes";
+import {
+  addEdgeForces,
+  addMutualRepulsion,
+  getNewParticleArray,
+  updateParticles,
+} from "./ParticleSystemUtils";
 import { addCenterGravity, update } from "./ParticleUtils";
-import { LOWER_BOUND_VELOCITY } from "./constants";
+import { FRAME_TIME_GAP, LOWER_BOUND_VELOCITY } from "./constants";
+import { RectangleType } from "./ParticleTypes";
 
 const starterParticles: ParticleType[] = [
   {
@@ -10,7 +16,7 @@ const starterParticles: ParticleType[] = [
     px: 200,
     vx: 10,
     vy: 10,
-    stampId: "",
+    stampId: "1",
     corner: "NE",
   },
   {
@@ -18,26 +24,28 @@ const starterParticles: ParticleType[] = [
     px: 700,
     vx: 10,
     vy: 10,
-    stampId: "",
-    corner: "NE",
+    stampId: "1",
+    corner: "SE",
   },
   {
     py: 100,
     px: 700,
     vx: 10,
     vy: 10,
-    stampId: "",
-    corner: "NE",
+    stampId: "1",
+    corner: "SW",
   },
   {
     py: 300,
     px: 200,
     vx: 10,
     vy: 10,
-    stampId: "",
-    corner: "NE",
+    stampId: "1",
+    corner: "NW",
   },
 ];
+
+const rects: RectangleType[] = [{ stampId: "1", height: 200, width: 200 }];
 
 export default function DebugParticlesView() {
   const [particles, setParticles] = useState(starterParticles);
@@ -55,25 +63,6 @@ export default function DebugParticlesView() {
   );
 }
 
-const FRAME_TIME_GAP = 1000 / 5;
-
-function updateParticles(
-  particles: ParticleType[],
-  setParticles: (_: ParticleType[]) => void
-) {
-  const newParticles = getNewParticleArray(particles);
-  for (let i = 0; i < particles.length; i++) {
-    newParticles[i] = addCenterGravity(newParticles[i]);
-
-    newParticles[i] = update(newParticles[i]);
-
-    // newParticles[i].px = 0;
-    // newParticles[i].py = 0;
-  }
-
-  setParticles(addMutualRepulsion(newParticles));
-}
-
 interface Props {
   particle: ParticleType;
 }
@@ -81,12 +70,14 @@ interface Props {
 function DebugParticleView({ particle }: Props) {
   return (
     <div
-      className="absolute w-6 h-6 rounded-full bg-white"
+      className="absolute w-6 h-6 rounded-full bg-white text-black"
       style={{
         top: particle.py,
         left: particle.px,
         transition: `top ${FRAME_TIME_GAP}ms linear, left ${FRAME_TIME_GAP}ms linear`,
       }}
-    />
+    >
+      {particle.corner}
+    </div>
   );
 }

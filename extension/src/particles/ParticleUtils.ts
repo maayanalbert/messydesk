@@ -1,4 +1,4 @@
-import { ParticleType } from "./ParticleType";
+import { ParticleType } from "./ParticleTypes";
 import {
   CENTER_GRAVITY_MULTIPLE,
   DAMPING,

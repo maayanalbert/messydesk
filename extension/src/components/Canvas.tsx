@@ -3,7 +3,6 @@ import { useStamps } from "../hooks/StampContext";
 import VertListStamp from "./VertListStamp";
 import HorizListStamp from "./HorizListStamp";
 import NodeStamp from "./NodeStamp";
-import { ParticleType } from "../particles/ParticleType";
 import DebugParticlesView from "../particles/ParticleDebug";
 
 export default function Canvas() {

@@ -1,9 +1,25 @@
-import { CornerType, ParticleType, RectangleType } from "./ParticleType";
-import { addForce } from "./ParticleUtils";
+import { CornerType, ParticleType, RectangleType } from "./ParticleTypes";
+import { addCenterGravity, addForce, update } from "./ParticleUtils";
 import { MUTUAL_REPULSION_MULTIPLE } from "./constants";
 
 export function getNewParticleArray(particles: ParticleType[]): ParticleType[] {
   return particles.map((particle) => Object.assign(particle));
+}
+
+export function updateParticles(
+  particles: ParticleType[],
+  setParticles: (_: ParticleType[]) => void
+) {
+  let newParticles = getNewParticleArray(particles);
+  for (let i = 0; i < particles.length; i++) {
+    newParticles[i] = addCenterGravity(newParticles[i]);
+
+    newParticles[i] = update(newParticles[i]);
+  }
+
+  newParticles = addMutualRepulsion(newParticles);
+  newParticles = addEdgeForces(newParticles, rects);
+  setParticles(addMutualRepulsion(newParticles));
 }
 
 function addEdgeForce(
@@ -17,7 +33,7 @@ function addEdgeForce(
   const dh = Math.sqrt(dx * dx + dy * dy);
   if (dh > 1) {
     const distention = dh - distance;
-    const restorativeForce = 0.2 * distention; // F = -kx
+    const restorativeForce = 0.5 * distention; // F = -kx
     const fx = (dx / dh) * restorativeForce;
     const fy = (dy / dh) * restorativeForce;
 
@@ -42,13 +58,13 @@ function getCorners(
   const NE = cornerMap.get("NE");
   if (!NE) return;
 
-  const SE = cornerMap.get("NE");
+  const SE = cornerMap.get("SE");
   if (!SE) return;
 
   const NW = cornerMap.get("NW");
   if (!NW) return;
 
-  const SW = cornerMap.get("NW");
+  const SW = cornerMap.get("SW");
   if (!SW) return;
 
   return [NW, NE, SE, SW];
@@ -64,7 +80,7 @@ function getParticleId(particle: ParticleType): string {
   return `${particle.stampId}-${particle.corner}`;
 }
 
-function addEdgeForces(
+export function addEdgeForces(
   particles: ParticleType[],
   rects: RectangleType[]
 ): ParticleType[] {
@@ -76,6 +92,10 @@ function addEdgeForces(
     const corners = getCorners(rect.stampId, particles);
     if (!corners) continue;
 
+    const diagLen = Math.sqrt(
+      Math.pow(rect.width, 2) + Math.pow(rect.height, 2)
+    );
+
     const [NW, NE, SE, SW] = corners;
 
     const [NW1, NE1] = addEdgeForce(NW, NE, rect.width);
@@ -83,10 +103,13 @@ function addEdgeForces(
     const [SE2, SW1] = addEdgeForce(SE1, SW, rect.width);
     const [SW2, NW2] = addEdgeForce(SW1, NW1, rect.height);
 
-    setParticleInList(NW2, indexMap, particles);
-    setParticleInList(NE2, indexMap, particles);
-    setParticleInList(SE2, indexMap, particles);
-    setParticleInList(SW2, indexMap, particles);
+    const [SW3, NE3] = addEdgeForce(SW2, NE2, diagLen);
+    const [SE3, NW3] = addEdgeForce(SE2, NW2, diagLen);
+
+    setParticleInList(NW3, indexMap, particles);
+    setParticleInList(NE3, indexMap, particles);
+    setParticleInList(SE3, indexMap, particles);
+    setParticleInList(SW3, indexMap, particles);
   }
 
   return particles;
